@@ -1,0 +1,47 @@
+:root {
+  --wp-block-space: 70px;
+  --wp-block-space-sm: 40px;
+  --wp-block-space-lg: 100px;
+}
+
+@layer components {
+  .wp-block {
+    &.space-margin {
+      margin: var(--wp-block-space) 0;
+    }
+
+    &.space-margin-sm {
+      margin: var(--wp-block-space-sm) 0;
+    }
+
+    &.space-margin-lg {
+      margin: var(--wp-block-space-lg) 0;
+    }
+
+    &.space-padding {
+      padding: var(--wp-block-space) 0;
+    }
+
+    &.space-padding-sm {
+      padding: var(--wp-block-space-sm) 0;
+    }
+
+    &.space-padding-lg {
+      padding: var(--wp-block-space-lg) 0;
+    }
+
+    &.space-remove-top {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    &.space-remove-bottom {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    &.style-muted {
+      @apply bg-gray-200;
+    }
+  }
+}

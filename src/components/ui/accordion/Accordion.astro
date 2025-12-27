@@ -1,0 +1,17 @@
+---
+import Title from "./Title.astro";
+import Content from "./Content.astro";
+
+const { items, animationDuration = "default", multiple = false } = Astro.props;
+---
+
+<ul class="accordion" data-accordion={`multiple: ${multiple}`}>
+  {
+    items.map((item) => (
+      <li class="accordion-item group border border-gray-200 p-3 space-y-5">
+        <Title item={item} />
+        <Content item={item} animationDuration={animationDuration} />
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,22 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/home/Hero.astro";
+
+const { wordpress } = Astro.props;
+const { page } = wordpress.page;
+const seo = page?.seo ?? null;
+---
+
+<Layout wordpress={wordpress} title="Supersonic WP Astro">
+  <Hero />
+  <main class="py-20">
+    <div class="container">
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi eaque,
+        delectus eveniet sed reprehenderit, sit quae, sunt officiis quis ex
+        porro. Molestiae aliquid aperiam quis aspernatur corporis, ab facilis
+        ipsa?
+      </p>
+    </div>
+  </main>
+</Layout>

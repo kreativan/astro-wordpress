@@ -1,0 +1,58 @@
+/* Infinite Slider Component
+ * A horizontally scrolling slider that loops infinitely.
+ * Hover to pause the animation.
+ */
+
+/* HTML Example:
+ * <div class="infinite-slider">
+ *   <div class="infinite-slider-items">
+ *     <div class="infinite-slider-item">Item 1</div>
+ *     <div class="infinite-slider-item">Item 2</div>
+ *     <!-- Duplicate items for seamless loop -->
+ *     <div class="infinite-slider-item">Item 1</div>
+ *     <div class="infinite-slider-item">Item 2</div>
+ *   </div>
+ * </div>
+ */
+
+.infinite-slider {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.infinite-slider-items {
+  display: inline-block;
+  animation: 35s slides infinite linear;
+}
+
+.infinite-slider:hover .infinite-slider-items {
+  animation-play-state: paused;
+}
+
+.infinite-slider-item {
+  display: inline-flex;
+  height: 60px;
+  width: 160px;
+  margin-right: 20px;
+  background: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.infinite-slider svg {
+  width: auto !important;
+  height: 32px !important;
+  fill: #525252 !important;
+}
+
+@keyframes slides {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}

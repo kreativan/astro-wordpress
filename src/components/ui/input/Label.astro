@@ -1,0 +1,8 @@
+---
+const { field } = Astro.props;
+---
+
+<label for={`input-${field.name}`} class="input-label mb-1 block text-sm">
+  {field.label}
+  {field.required && <span class="text-red-500">*</span>}
+</label>

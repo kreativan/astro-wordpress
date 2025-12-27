@@ -1,0 +1,27 @@
+---
+const supersonicOptions = {
+  i18n: true,
+  country: "bg",
+  mode: import.meta.env.MODE,
+  gtm: null, // Google Tag Manager ID, e.g., "GTM-XXXXXX"
+  swal: true,
+  iti: false, // Enable intl-tel-input
+  stickyNavbar: true, // Enable sticky navbar
+  viewportAnimations: true, // Enable viewport animations
+  dropdowns: true, // Enable dropdowns
+  scroll: true, // Enable smooth scroll
+  drawers: true, // Enable drawers
+  submenus: true, // Enable submenus
+};
+---
+
+<script is:inline src="/_assets/js/supersonic.umd.js"></script>
+<script is:inline define:vars={{ supersonicOptions }}>
+  supersonic.init(supersonicOptions);
+</script>
+
+{
+  import.meta.env.MODE === "development" && (
+    <script is:inline>console.log("Supersonic:", supersonic);</script>
+  )
+}

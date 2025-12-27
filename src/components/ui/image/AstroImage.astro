@@ -1,0 +1,55 @@
+---
+/**
+ * AstroImage Component
+ * A wrapper around Astro's Image component with automatic alt text generation and format optimization.
+ *
+ * Props:
+ * @param {string} url - Image source URL or path (required)
+ * @param {string} alt - Alt text for accessibility (auto-generated from filename if not provided)
+ * @param {number|string} width - Image width, use "auto" for automatic sizing (default: "auto")
+ * @param {number|string} height - Image height, use "auto" for automatic sizing (default: "auto")
+ * @param {string} className - CSS classes to apply to the image
+ * @param {string} format - Output image format (default: "webp")
+ *
+ * @example
+ * <AstroImage
+ *   url="/images/hero.jpg"
+ *   alt="Hero image"
+ *   width={800}
+ *   height={600}
+ *   className="rounded-lg"
+ * />
+ *
+ * @example
+ * // With auto-generated alt text and automatic sizing
+ * <AstroImage url="/images/product-photo.jpg" />
+ */
+
+import { Image } from "astro:assets";
+
+const {
+  url,
+  alt = null,
+  width = "auto",
+  height = "auto",
+  className,
+  format = "webp",
+} = Astro.props;
+
+let imageAlt =
+  !alt && url ? url.split("/").pop().split(".").slice(0, -1).join(".") : alt;
+---
+
+{
+  url && (
+    <Image
+      src={url}
+      alt={imageAlt}
+      class={className}
+      width={width && width !== "auto" ? width : ""}
+      height={height && height !== "auto" ? height : ""}
+      format={format}
+      inferSize
+    />
+  )
+}

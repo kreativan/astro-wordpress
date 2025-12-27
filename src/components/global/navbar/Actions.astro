@@ -1,0 +1,9 @@
+---
+const { text, link } = Astro.props;
+---
+
+<div class="navbar-actions">
+  <a href={link} class="btn btn-primary hidden md:block">
+    {text}
+  </a>
+</div>

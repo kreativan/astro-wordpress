@@ -1,0 +1,83 @@
+:root {
+  --btn-height: 45px;
+  --btn-padding-x: 40px;
+  --btn-radius: 5px;
+  --btn-font-weight: 500;
+  --btn-font-size: 16px;
+  --btn-text-transform: none;
+
+  --btn-sm-height: 40px;
+  --btn-sm-padding-x: 32px;
+  --btn-sm-font-size: 14px;
+  --btn-sm-text-transform: uppercase;
+
+  --btn-default-bg: white;
+  --btn-default-color: var(--color-base-color);
+  --btn-default-border: #303030;
+  --btn-default-bg-hover: var(--color-slate-200);
+
+  --btn-primary-bg: var(--color-supersonic);
+  --btn-primary-color: var(--color-supersonic-dark);
+  --btn-primary-bg-hover: var(--color-supersonic-hover);
+}
+
+@layer components {
+  .btn {
+    cursor: pointer;
+    display: inline-flex;
+    line-height: var(--btn-height);
+    padding: 0 var(--btn-padding-x);
+    border-radius: var(--btn-radius);
+    font-weight: var(--btn-font-weight);
+    font-size: var(--btn-font-size);
+    text-transform: var(--btn-text-transform);
+    text-align: center;
+
+    &.btn-sm {
+      line-height: var(--btn-sm-height);
+      padding: 0 var(--btn-sm-padding-x);
+      font-size: var(--btn-sm-font-size);
+      text-transform: var(--btn-sm-text-transform);
+    }
+  }
+
+  .btn-long {
+    padding: 0 60px;
+  }
+
+  .btn-default {
+    background-color: var(--btn-default-bg);
+    color: var(--btn-default-color);
+
+    border: 1px solid var(--btn-default-border);
+
+    &:hover {
+      background-color: var(--btn-default-bg-hover);
+    }
+  }
+
+  .btn-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-color);
+
+    &:hover {
+      background-color: var(--btn-primary-bg-hover);
+    }
+  }
+
+  .text-white {
+
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary {
+      background: white;
+      color: #333;
+
+      &:hover {
+        background: #f3f3f3;
+      }
+    }
+
+  }
+
+}

@@ -1,0 +1,173 @@
+---
+/**
+ * WpForm Component
+ * Renders WordPress forms with ACF field configuration and AJAX submission.
+ *
+ * Props:
+ * @param {object} form - Form object with fields and options (alternative to id/name)
+ * @param {number} id - WordPress form ID to fetch
+ * @param {string} name - WordPress form name to fetch
+ * @param {string} buttonStyle - Submit button style class (default: "primary")
+ * @param {string} labels - Show field labels: "true" or "false" (default: "true")
+ * @param {string} gap - Grid gap class (default: "gap-5")
+ *
+ * Supported Field Types:
+ * - text: Text input
+ * - email: Email input
+ * - textarea: Multi-line text area
+ * - file: File upload
+ *
+ * Form Options (from WordPress):
+ * - action_url: Custom form submission URL
+ * - alert_type: Response display type ("swal" or other)
+ * - submit_button_text: Custom submit button text
+ * - captcha: Enable number captcha ("number")
+ *
+ * @example
+ * // Fetch form by ID
+ * <WpForm id={123} buttonStyle="secondary" />
+ *
+ * @example
+ * // Fetch form by name without labels
+ * <WpForm name="contact-form" labels="false" gap="gap-3" />
+ *
+ * @example
+ * // Pass form object directly
+ * <WpForm form={myFormData} />
+ */
+
+import Label from "@components/ui/input/Label.astro";
+import Text from "@components/ui/input/Text.astro";
+import Email from "@components/ui/input/Email.astro";
+import Textarea from "@components/ui/input/Textarea.astro";
+import NumbCaptcha from "@components/ui/input/NumbCaptcha.astro";
+import File from "@components/ui/input/File.astro";
+import Spinner from "@components/ui/spinner/Spinner.astro";
+
+import { getForm, getFormById } from "@src/lib/wordpress/forms";
+
+const {
+  form,
+  id,
+  name,
+  buttonStyle = "primary",
+  labels = "true",
+  gap = "gap-5",
+} = Astro.props;
+
+let wpForm = form || null;
+
+if (!wpForm) {
+  if (id) {
+    wpForm = await getFormById(id);
+  } else if (name) {
+    wpForm = await getForm(name);
+  }
+}
+
+const formID = id || "wp-form-" + wpForm.name;
+
+const action =
+  form?.options?.action_url ||
+  import.meta.env.WP_URL + "wp-json/supersonic/v1/form-submit";
+
+const inputs = {
+  text: Text,
+  email: Email,
+  textarea: Textarea,
+  file: File,
+};
+
+const wpFormOptions = {
+  formID: formID,
+  action: action,
+  responseType: wpForm?.options?.alert_type || "swal",
+};
+---
+
+<form id={formID} action={action} method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="form_id" value={wpForm.id} />
+  <div class={`grid grid-cols-10 ${gap}`}>
+    {
+      wpForm &&
+        wpForm.fields &&
+        wpForm.fields.map((field) => {
+          const InputComponent = inputs[field.acf_fc_layout] || "TextInput";
+          if (field.acf_fc_layout in inputs) {
+            let gridSize = field.form_grid_size || "100";
+            let width;
+            switch (gridSize) {
+              case "100":
+                width = "col-span-10";
+                break;
+              case "80":
+                width = "col-span-10 lg:col-span-8";
+                break;
+              case "70":
+                width = "col-span-10 lg:col-span-7";
+                break;
+              case "60":
+                width = "col-span-10 lg:col-span-6";
+                break;
+              case "50":
+                width = "col-span-10 lg:col-span-5";
+                break;
+              case "40":
+                width = "col-span-10 lg:col-span-4";
+                break;
+              case "33":
+                width = "col-span-10 lg:col-span-3";
+                break;
+              case "30":
+                width = "col-span-10 lg:col-span-3";
+                break;
+              case "20":
+                width = "col-span-10 lg:col-span-2";
+                break;
+              default:
+                width = "col-span-10";
+                break;
+            }
+            return (
+              <div class={width}>
+                <div class="form-control">
+                  {labels !== "false" && <Label field={field} />}
+                  <InputComponent field={field} />
+                </div>
+              </div>
+            );
+          }
+        })
+    }
+    {
+      wpForm?.options?.captcha == "number" && (
+        <div class="col-span-10">
+          <div class="form-control">
+            <NumbCaptcha />
+          </div>
+        </div>
+      )
+    }
+    <div class="col-span-10">
+      <div class="form-actions flex items-center">
+        <button type="submit" class={`btn btn-submit btn-${buttonStyle}`}>
+          {wpForm?.options?.submit_button_text}
+        </button>
+        <Spinner cls="spinner hidden ml-5" />
+      </div>
+    </div>
+  </div>
+</form>
+
+<script is:inline define:vars={{ wpFormOptions }}>
+  window.addEventListener("DOMContentLoaded", function () {
+    new supersonic.newForm({
+      method: "POST",
+      formId: wpFormOptions.formID,
+      ajaxUrl: wpFormOptions.action,
+      submitButton: `#${wpFormOptions.formID} .btn-submit`,
+      indicator: `#${wpFormOptions.formID} .spinner`,
+      responseType: wpFormOptions.responseType || "swal",
+    });
+  });
+</script>

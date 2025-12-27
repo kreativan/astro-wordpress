@@ -1,0 +1,27 @@
+---
+import MenuItem from "@components/ui/menu/MenuItem.astro";
+import Dropdown from "@components/ui/dropdown/Dropdown.astro";
+
+const { menu } = Astro.props;
+---
+
+<ul class="navbar-nav hidden md:flex space-x-8">
+  {
+    menu.map((item) => {
+      if (item.submenu && item.submenu.length > 0) {
+        return (
+          <Dropdown pos="center" items={item.submenu} title={item.title} />
+        );
+      }
+      return (
+        <MenuItem
+          href={item.href}
+          title={item.title}
+          target={item.target}
+          className="text-gray-700 hover:text-gray-900"
+          parentClass="menu-item"
+        />
+      );
+    })
+  }
+</ul>

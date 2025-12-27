@@ -1,0 +1,49 @@
+---
+// Templates
+import Default from "@templates/Default.astro";
+import Flexible from "@templates/Flexible.astro";
+import Home from "@templates/Home.astro";
+
+// Get WordPress API
+import { wordpressDataLoader } from "@lib/wordpress/loader";
+import { getPage } from "src/lib/wordpress/pages";
+import { getStaticPathsSubPages } from "@lib/wordpress/static-paths";
+
+// Map templates
+const templates = {
+  default: Default,
+  flexible: Flexible,
+  home: Home,
+};
+
+// Get astro params
+const { slug, subPageSlug } = Astro.params;
+
+const wordpress = await wordpressDataLoader({
+  page: slug,
+  lang: null,
+});
+
+let page = wordpress.page;
+let parent = await getPage(slug);
+
+if (!page || page.length === 0) {
+  throw new Error(`Page not found: ${subPageSlug}`);
+}
+
+// Determine the template
+const template = page.template;
+
+const TemplateComponent = templates[template] || Default;
+
+// The getStaticPaths() is required for static Astro sites.
+// If using SSR, you will not need this function.
+export async function getStaticPaths() {
+  let subPages = await getStaticPathsSubPages();
+  return subPages.map((subpage) => ({
+    params: { slug: subpage.parent_slug, subPageSlug: subpage.slug },
+  }));
+}
+---
+
+<TemplateComponent wordpress={wordpress} parent={parent} slug={subPageSlug} />

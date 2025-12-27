@@ -1,0 +1,14 @@
+---
+const { field } = Astro.props;
+const required = field.required ? "required" : "";
+---
+
+<div uk-form-custom="target: true">
+  <input type="file" name={field.name} {required} />
+  <input
+    class="input input-file"
+    type="text"
+    placeholder={field.placeholder}
+    disabled
+  />
+</div>

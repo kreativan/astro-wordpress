@@ -1,0 +1,13 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const { wordpress } = Astro.props;
+const page = wordpress.page;
+---
+
+<Layout wordpress={wordpress} title={page.title.rendered}>
+  <main class="container py-20">
+    <h1 class="text-4xl font-bold mb-20">{page.title.rendered}</h1>
+    <div set:html={page.content.rendered} class="space-y-6" />
+  </main>
+</Layout>

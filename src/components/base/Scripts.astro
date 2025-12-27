@@ -1,0 +1,17 @@
+---
+const scripts = [
+  {
+    src: "https://unpkg.com/htmx.org@2.0.4",
+    defer: true,
+  },
+];
+---
+
+{
+  scripts.map(
+    (script) =>
+      script.src != "" && (
+        <script is:inline src={script.src} defer={script.defer} />
+      )
+  )
+}

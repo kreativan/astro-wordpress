@@ -1,0 +1,11 @@
+---
+import HomeTemplate from "@templates/Home.astro";
+import { wordpressDataLoader } from "@lib/wordpress/loader.js";
+
+const wordpress = await wordpressDataLoader({
+  page: "home",
+  lang: null,
+});
+---
+
+<HomeTemplate wordpress={wordpress} />

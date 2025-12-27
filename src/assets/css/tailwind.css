@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@import "./animate.css";
+@import "./components/wp-blocks.css";
+@import "./components/button.css";
+@import "./components/form.css";
+@import "./components/navbar.css";
+@import "./components/gradient.css";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+
+  /* Font Sizes */
+  --text-base: 16px;
+  --text-h1: clamp(34px, 4vw + 1rem, 45px);
+  --text-h2: clamp(32px, 2vw + 1rem, 40px);
+  --text-h3: clamp(20px, 1.2vw + 1rem, 24px);
+  --text-h4: 1.375rem;
+  --text-h5: 1.125rem;
+  --text-h6: 0.875rem;
+
+  --text-as-h1: var(--text-h1);
+  --text-as-h2: var(--text-h2);
+  --text-as-h3: var(--text-h3);
+
+  --color-base-color: #444;
+  --color-emphasis-color: var(--color-supersonic-dark);
+
+  --color-primary: var(--color-amber-400);
+  --color-danger: var(--color-red-500);
+
+  --color-supersonic: #FFD300;
+  --color-supersonic-hover: #e6c200;
+  --color-supersonic-dark: #1A2340;
+
+  /* Container */
+  --container-padding-x: 30px;
+  --container-max-width: calc(1200px + (var(--container-padding-x) * 2));
+
+  /* Radius */
+  --radius: 10px;
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+  max-width: var(--container-max-width);
+}
+
+@layer base {
+  body {
+    color: var(--color-base-color);
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+    line-height: 1.1;
+    color: var(--color-emphasis-color);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: 1.2;
+    color: var(--color-emphasis-color);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    color: var(--color-emphasis-color);
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+  }
+
+  h5 {
+    font-size: var(--text-h5);
+    color: var(--color-emphasis-color);
+  }
+
+  h6 {
+    font-size: var(--text-h6);
+  }
+}

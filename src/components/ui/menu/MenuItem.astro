@@ -1,0 +1,43 @@
+---
+/**
+ * MenuItem Component
+ * A navigation menu item with active state detection and configurable styling.
+ *
+ * Props:
+ * @param {string} href - Link URL (required)
+ * @param {string} title - Link text and title attribute (required)
+ * @param {string} target - Link target attribute (e.g., "_blank" for new tab)
+ * @param {string} className - CSS classes to apply to the anchor element
+ * @param {string} parentClass - CSS classes to apply to the parent li element (default: "menu-item")
+ *
+ * @example
+ * <MenuItem href="/about" title="About Us" />
+ *
+ * @example
+ * // External link with custom styling
+ * <MenuItem
+ *   href="https://example.com"
+ *   title="External Link"
+ *   target="_blank"
+ *   className="text-blue-500"
+ * />
+ */
+
+const {
+  href,
+  title,
+  target,
+  className,
+  parentClass = "menu-item",
+} = Astro.props;
+
+let isActive = Astro.url.pathname.includes(href) ? true : false;
+
+const rel = target === "_blank" ? "noopener noreferrer nofollow" : undefined;
+---
+
+<li class={parentClass + (isActive ? " active" : "")}>
+  <a href={href} class={className} title={title} target={target} rel={rel}>
+    {title}
+  </a>
+</li>

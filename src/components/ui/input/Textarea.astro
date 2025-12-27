@@ -1,0 +1,13 @@
+---
+const { field } = Astro.props;
+const required = field.required ? "required" : "";
+const rows = field.rows || 7;
+---
+
+<textarea
+  class="input input-textarea"
+  name={field.name}
+  id={`input-${field.name}`}
+  placeholder={field.placeholder}
+  {required}
+  rows={rows}></textarea>

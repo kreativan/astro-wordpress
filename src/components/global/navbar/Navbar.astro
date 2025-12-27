@@ -1,0 +1,17 @@
+---
+import Logo from "./Logo.astro";
+import Nav from "./Nav.astro";
+import Actions from "./Actions.astro";
+
+const { menu } = Astro.props;
+---
+
+<div id="navbar">
+  <div class="container">
+    <nav class="navbar flex items-center justify-between">
+      <Logo />
+      <Nav menu={menu} />
+      <Actions text="Get Started" link="#" />
+    </nav>
+  </div>
+</div>

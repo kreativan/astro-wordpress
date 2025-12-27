@@ -1,0 +1,70 @@
+---
+import Label from "@components/ui/input/Label.astro";
+import Email from "@components/ui/input/Email.astro";
+import Text from "@components/ui/input/Text.astro";
+import Textarea from "@components/ui/input/Textarea.astro";
+import NumbCaptcha from "@components/ui/input/NumbCaptcha.astro";
+
+import Spinner from "@components/ui/spinner/Spinner.astro";
+
+const fields = [
+  {
+    label: "Name",
+    name: "name",
+    type: "text",
+    required: true,
+  },
+  {
+    label: "Email",
+    name: "email",
+    type: "email",
+    required: true,
+  },
+  {
+    label: "Message",
+    name: "message",
+    type: "textarea",
+    required: true,
+  },
+];
+---
+
+<form id="contact-form" action="./" method="POST">
+  {
+    fields.map((field) => (
+      <div class="form-control">
+        <Label field={field} />
+        {field.type === "text" ? (
+          <Text field={field} />
+        ) : field.type === "email" ? (
+          <Email field={field} />
+        ) : field.type === "textarea" ? (
+          <Textarea field={field} />
+        ) : null}
+      </div>
+    ))
+  }
+
+  <div class="form-control">
+    <NumbCaptcha />
+  </div>
+
+  <div class="flex items-center mt-6">
+    <button type="submit" class="btn btn-primary"> Submit </button>
+    <Spinner cls="spinner hidden ml-5" />
+  </div>
+</form>
+
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", function () {
+    new supersonic.newForm({
+      formId: "contact-form",
+      submitButton: "#contact-form .btn",
+      data: { name: "John Doe" },
+      indicator: "#contact-form .spinner",
+      ajaxUrl: "/json/form-submit.json",
+      method: "POST",
+      responseType: "swal",
+    });
+  });
+</script>

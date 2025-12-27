@@ -1,0 +1,50 @@
+---
+/**
+ * Dropdown Component
+ * A clickable dropdown menu with configurable position and items.
+ *
+ * Props:
+ * @param {string} title - The text displayed for the dropdown trigger
+ * @param {Array} items - Array of menu items with { href, title, target } properties
+ * @param {string} pos - Position of dropdown menu: "left" or "center" (default: "center")
+ *
+ * @example
+ * <Dropdown
+ *   title="Menu"
+ *   pos="left"
+ *   items={[
+ *     { href: "/page1", title: "Page 1" },
+ *     { href: "/page2", title: "Page 2", target: "_blank" }
+ *   ]}
+ * />
+ */
+
+import MenuItem from "@components/ui/menu/MenuItem.astro";
+import DropdownSVG from "@assets/svg/dropdown.svg";
+
+const { pos = "center", items, title } = Astro.props;
+
+const baseClass = "dropdown";
+const left = " left-0";
+const center = " left-1/2 transform -translate-x-1/2";
+---
+
+<li class="relative" data-dropdown>
+  <a href="#" class="flex items-center">
+    {title}
+    <DropdownSVG width="18" height="18" />
+  </a>
+
+  <div
+    class={pos === "left" ? baseClass + left : baseClass + center}
+    style="display: none;"
+  >
+    <ul class="dropdown-menu">
+      {
+        items.map((item) => (
+          <MenuItem href={item.href} title={item.title} target={item.target} />
+        ))
+      }
+    </ul>
+  </div>
+</li>

@@ -1,0 +1,47 @@
+/*
+ * Usage:
+ * <div class="gradient-border">Border</div>
+ * <h1 class="gradient-text">Text</h1>
+ * <div class="gradient-bg">Background</div>
+ */
+
+:root {
+  --gradient-border-color-1: #00B410;
+  --gradient-border-color-2: #ecd72e;
+  --gradient-border-deg: 180deg;
+  --gradient-border-width: 3px;
+
+  --gradient-text-color-1: #00B410;
+  --gradient-text-color-2: #FFAE00;
+
+  --gradient-bg-1: #E0E227;
+  --gradient-bg-2: #00B410;
+}
+
+@layer components {
+  .gradient-border {
+    position: relative;
+    z-index: 0;
+    border: var(--gradient-border-width) solid transparent;
+    border-radius: inherit;
+    background:
+      linear-gradient(#fff, #fff) padding-box,
+      linear-gradient(var(--gradient-border-deg), var(--gradient-border-color-2), var(--gradient-border-color-1)) border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .gradient-border.gradient-border-2 {
+    padding: 2px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(90deg, var(--gradient-text-color-1), var(--gradient-text-color-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-bg {
+    background: linear-gradient(284.32deg, var(--gradient-bg-1) -17.69%, var(--gradient-bg-2) 97.19%) !important;
+  }
+}

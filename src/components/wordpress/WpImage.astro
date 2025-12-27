@@ -1,0 +1,40 @@
+---
+/**
+ * WpImage Component
+ * Renders WordPress media images using Astro's optimized Image component.
+ *
+ * Props:
+ * @param {object} image - WordPress image object containing url, alt, name, width, and height
+ * @param {string} className - CSS classes to apply to the image
+ *
+ * Image Object Structure:
+ * - url: Image source URL (required)
+ * - alt: Alt text for accessibility (falls back to name if not provided)
+ * - name: Image filename
+ * - width: Image width in pixels
+ * - height: Image height in pixels
+ *
+ * @example
+ * <WpImage image={page.featured_image} className="rounded-lg" />
+ *
+ * @example
+ * // With ACF image field
+ * <WpImage image={block.background_image} />
+ */
+
+import { Image } from "astro:assets";
+
+const { image, className } = Astro.props;
+---
+
+{
+  image && (
+    <Image
+      src={image.url}
+      alt={image.alt || image.name}
+      class={className}
+      width={image.width}
+      height={image.height}
+    />
+  )
+}

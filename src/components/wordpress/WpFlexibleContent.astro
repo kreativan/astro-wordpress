@@ -1,0 +1,98 @@
+---
+/**
+ * WpFlexibleContent Component
+ * Dynamically renders WordPress ACF Flexible Content blocks.
+ *
+ * This component:
+ * - Auto-loads all Block.astro components from /src/components/wp-blocks/
+ * - Maps block layouts to their corresponding components by folder name
+ * - Renders blocks with configurable container, spacing, and CSS options
+ * - Falls back to Editor component if no matching block found
+ *
+ * Props:
+ * @param {object} page - WordPress page object containing ACF flexible_content data
+ *
+ * Block Options (from ACF):
+ * - container: Wrapper class (e.g., "container", "container-fluid")
+ * - space: Spacing class (default: "block-space-margin")
+ * - space_remove: Additional spacing removal classes
+ * - css_id: Custom ID for the section element
+ * - css_class: Additional CSS classes
+ *
+ * @example
+ * <WpFlexibleContent page={wpPage} />
+ *
+ * Block Structure:
+ * /src/components/wp-blocks/hero/Block.astro → maps to layout: "hero"
+ * /src/components/wp-blocks/testimonials/Block.astro → maps to layout: "testimonials"
+ */
+
+import Editor from "@components/wp-blocks/editor/Block.astro";
+
+// Auto-load all wp-blocks/*/Block.astro and key them by folder name
+const modules = import.meta.glob("/src/components/wp-blocks/**/Block.astro", {
+  eager: true,
+});
+
+const blocks = Object.fromEntries(
+  Object.entries(modules).map(([path, mod]) => {
+    const parts = path.split("/");
+    // folder right before Block.astro becomes the layout key
+    const key = parts[parts.length - 2];
+    return [key, (mod as any).default];
+  })
+);
+
+const { page } = Astro.props;
+
+const flexibleContent = page?.acf?.flexible_content;
+---
+
+{
+  flexibleContent &&
+    flexibleContent.map((block, index) => {
+      const layout = block.acf_fc_layout;
+      const BlockComponent = blocks[layout] || Editor;
+      {
+        let block_options = block.block_options ?? false;
+        let container = block_options ? block_options.container : false;
+        let space =
+          block_options && block_options.space && block_options.space != "none"
+            ? block_options.space
+            : "block-space-margin";
+        space +=
+          block_options &&
+          block_options.space_remove &&
+          block_options.space_remove != "none"
+            ? ` ${block_options.space_remove}`
+            : "";
+        let cssID =
+          block_options && block_options.css_id
+            ? block_options.css_id
+            : "section-" + index;
+        let cssClass =
+          block_options && block_options.css_class
+            ? `wp-block block-${block.acf_fc_layout} ${block_options.css_class}`
+            : `wp-block block-${block.acf_fc_layout}`;
+
+        if (block?.block_options?.enable != "1") {
+          return null;
+        }
+        return block_options ? (
+          <section id={cssID} class={`${cssClass} ${space}`}>
+            {container &&
+            container != "none" &&
+            container != "container-none" ? (
+              <div class={container}>
+                <BlockComponent block={block} index={index + 1} />
+              </div>
+            ) : (
+              <BlockComponent block={block} index={index + 1} />
+            )}
+          </section>
+        ) : (
+          <BlockComponent block={block} index={index + 1} />
+        );
+      }
+    })
+}

@@ -1,0 +1,13 @@
+---
+const { field } = Astro.props;
+const required = field.required ? "required" : "";
+---
+
+<input
+  class="input input-text"
+  type="text"
+  name={field.name}
+  id=`input-${field.name}`
+  placeholder={field.placeholder}
+  {required}
+/>

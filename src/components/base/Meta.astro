@@ -1,0 +1,65 @@
+---
+import languages from "@data/languages.json";
+
+interface Props {
+  title?: string;
+  description?: string;
+  favicon?: string;
+  keywords?: string;
+  og?: {
+    title?: string;
+    description?: string;
+    image?: string;
+  };
+  twitter?: {
+    card?: string;
+    site?: string;
+    creator?: string;
+    title?: string;
+    description?: string;
+    image?: string;
+  };
+}
+
+const { favicon, title, description, keywords, og, twitter } = Astro.props;
+
+const canonicalUrl = "https://" + import.meta.env.SITE_DOMAIN + "/";
+---
+<link
+  rel="icon"
+  type="image/svg+xml"
+  href={favicon ? favicon : "/favicon.png"}
+/>
+
+<title>{title}</title>
+
+{description && <meta name="description" content={description} />}
+{keywords && <meta name="keywords" content={keywords} />}
+
+<link rel="canonical" href={canonicalUrl} />
+
+{
+  languages && languages.map((lang) => {
+    let href = lang.code == import.meta.env.SITE_LANG ? canonicalUrl : "https://" + import.meta.env.SITE_DOMAIN + "/" + lang.code + "/";
+    return (
+      <link rel="alternate" href={href} hreflang={lang.code == "en" ? "x-default" : lang.code} />
+    );
+  })
+}
+
+<meta property="og:title" content={(og && og.title) || title} />
+<meta property="og:description" content={(og && og.description) || description}/>
+<meta property="og:image" content={(og && og.image) || ""} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:type" content="website" />
+
+{
+  twitter && (
+    <meta name="twitter:card" content={twitter.card || "summary_large_image"} />
+    <meta name="twitter:site" content={twitter.site} />
+    <meta name="twitter:creator" content={twitter.creator} />
+    <meta name="twitter:title" content={twitter.title || title} />
+    <meta name="twitter:description" content={twitter.description || description} />
+    <meta name="twitter:image" content={twitter.image} />
+  )
+}

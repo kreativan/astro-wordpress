@@ -1,0 +1,25 @@
+{
+  "name": "supersonic-astro",
+  "type": "commonjs",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "HOST=0.0.0.0 PORT=4321 node ./dist/server/entry.mjs --host",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.5.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.6",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.0"
+  },
+  "engines": {
+    "node": ">=20.x"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.54.0" 
+  }
+}

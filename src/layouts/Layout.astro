@@ -1,0 +1,65 @@
+---
+import Meta from "@components/base/Meta.astro";
+import Scripts from "@components/base/Scripts.astro";
+import Supersonic from "@components/base/Supersonic.astro";
+import Navbar from "@components/global/navbar/Navbar.astro";
+import Footer from "@components/global/footer/Footer.astro";
+
+interface Props {
+  wordpress?: any;
+  title?: string;
+  description?: string;
+  keywords?: string;
+  image?: string;
+}
+
+const { wordpress, title } = Astro.props;
+const page = wordpress.page;
+let pageTitle = page?.acf?.seo?.title || page?.title?.rendered || title;
+
+import "@assets/fonts/inter.css";
+import "@assets/css/tailwind.css";
+---
+
+<html lang={wordpress.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Meta  -->
+    <Meta
+      title={pageTitle + " - " + import.meta.env.SITE_TITLE}
+      description={page?.acf?.seo?.description}
+      keywords={page?.acf?.seo?.keywords}
+      og={{
+        image: page?.acf?.seo?.image,
+      }}
+      twitter={{
+        site: "", // Add your Twitter username here
+        creator: "", // Add your Twitter username here
+        image: page?.acf?.seo?.image,
+      }}
+    />
+
+    <!-- Supersonic JS -->
+    <Supersonic />
+
+    <!-- Scripts -->
+    <Scripts />
+
+    {
+      import.meta.env.MODE === "development" && (
+        <script define:vars={{ wordpress }}>
+          console.log("WordPress Data Loader:", wordpress);
+        </script>
+      )
+    }
+  </head>
+  <body>
+    <Navbar menu={wordpress.menus["main-menu"]} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

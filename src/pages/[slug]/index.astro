@@ -1,0 +1,50 @@
+---
+// Templates
+import Default from "@templates/Default.astro";
+import Flexible from "@templates/Flexible.astro";
+import Home from "@templates/Home.astro";
+
+// Get WordPress API
+import { wordpressDataLoader } from "@lib/wordpress/loader";
+import { getStaticPathsRoot } from "@lib/wordpress/static-paths";
+
+// Map templates
+const templates = {
+  default: Default,
+  flexible: Flexible,
+  home: Home,
+};
+
+// Get astro params
+const { slug } = Astro.params;
+
+const wordpress = await wordpressDataLoader({
+  page: slug,
+  lang: null,
+});
+
+// Get page based on slug
+let page = wordpress.page;
+
+if (!page || page.length === 0) {
+  throw new Error(`Page not found: ${slug}`);
+}
+
+// Determine the template
+const template = page.template ? page.template : "default";
+
+const TemplateComponent = templates[template] || Default;
+
+// The getStaticPaths() is required for static Astro sites.
+// If using SSR, you will not need this function.
+export async function getStaticPaths() {
+  let pages = await getStaticPathsRoot();
+  return pages
+    .filter((page) => page.slug !== "home")
+    .map((page) => ({
+      params: { slug: page.slug },
+    }));
+}
+---
+
+<TemplateComponent wordpress={wordpress} slug={slug} />
