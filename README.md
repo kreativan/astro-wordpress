@@ -1,10 +1,11 @@
-# Supersonic WP Astro
+# Astro + Wordpress
 
 ### ENV
 
 ```bash
 # Wordpress URL
-WP_URL=https://wp.kreativan.dev/sandbox/
+#WP_URL=https://supersonic-wordpress.ddev.site/sandbox/
+WP_URL=https://wp.pagepilot.dev/sandbox/
 
 # Wordpress environment: dev, staging, production
 # In dev mode data fetching cache is bypassed
@@ -14,10 +15,13 @@ WP_ENV=dev
 SITE_LANG=en
 
 # SITE_TITLE used in meta titles etc...
-SITE_TITLE="Supersonic WP + Astro"
+SITE_TITLE="Astro + Wordpress"
 
 # Site domain, used for canonical URLs etc...
-SITE_DOMAIN=supersonichq.com
+SITE_DOMAIN=astro.pagepilot.dev
+
+# No index
+NO_INDEX=1
 
 # Should astro use SSR? only for dev and qa!
 ASTRO_SSR=0
