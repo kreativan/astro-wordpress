@@ -14,7 +14,7 @@ export default defineConfig({
   output: ASTRO_SSR == 1 ? 'server' : 'static',
   adapter: ASTRO_SSR == 1 ? node({ mode: 'standalone' }) : undefined,
   image: {
-    domains: ["wp.kreativan.dev", "supersonic-wordpress.ddev.site"],
+    domains: ["wp.pagepilot.dev"],
   },
   vite: {
     plugins: [tailwindcss()]

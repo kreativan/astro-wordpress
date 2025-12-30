@@ -28,6 +28,7 @@
 import { Image } from "astro:assets";
 
 const {
+  src,
   url,
   alt = null,
   width = "auto",
@@ -36,14 +37,18 @@ const {
   format = "webp",
 } = Astro.props;
 
+let imaSrc = src || url;
+
 let imageAlt =
-  !alt && url ? url.split("/").pop().split(".").slice(0, -1).join(".") : alt;
+  !alt && imaSrc
+    ? imaSrc.split("/").pop().split(".").slice(0, -1).join(".")
+    : alt;
 ---
 
 {
   url && (
     <Image
-      src={url}
+      src={imaSrc}
       alt={imageAlt}
       class={className}
       width={width && width !== "auto" ? width : ""}
