@@ -53,6 +53,7 @@ const {
   buttonStyle = "primary",
   labels = "true",
   gap = "gap-5",
+  className,
 } = Astro.props;
 
 let wpForm = form || null;
@@ -65,10 +66,10 @@ if (!wpForm) {
   }
 }
 
-const formID = id || "wp-form-" + wpForm.name;
+const formID = id || wpForm.id;
 
 const action =
-  form?.options?.action_url ||
+  wpForm?.options?.action_url ||
   import.meta.env.WP_URL + "wp-json/supersonic/v1/form-submit";
 
 const inputs = {
@@ -85,7 +86,13 @@ const wpFormOptions = {
 };
 ---
 
-<form id={formID} action={action} method="POST" enctype="multipart/form-data">
+<form
+  id={formID}
+  action={action}
+  method="POST"
+  enctype="multipart/form-data"
+  class={className}
+>
   <input type="hidden" name="form_id" value={wpForm.id} />
   <div class={`grid grid-cols-10 ${gap}`}>
     {
