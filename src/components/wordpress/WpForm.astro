@@ -87,7 +87,7 @@ const wpFormOptions = {
 ---
 
 <form
-  id={formID}
+  id={`wp-form-` + formID}
   action={action}
   method="POST"
   enctype="multipart/form-data"
@@ -170,10 +170,10 @@ const wpFormOptions = {
   window.addEventListener("DOMContentLoaded", function () {
     new supersonic.newForm({
       method: "POST",
-      formId: wpFormOptions.formID,
+      formId: `wp-form-${wpFormOptions.formID}`,
       ajaxUrl: wpFormOptions.action,
-      submitButton: `#${wpFormOptions.formID} .btn-submit`,
-      indicator: `#${wpFormOptions.formID} .spinner`,
+      submitButton: `#wp-form-${wpFormOptions.formID} .btn-submit`,
+      indicator: `#wp-form-${wpFormOptions.formID} .spinner`,
       responseType: wpFormOptions.responseType || "swal",
     });
   });

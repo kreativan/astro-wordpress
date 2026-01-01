@@ -1,0 +1,15 @@
+---
+const wpLogin = import.meta.env.WP_URL || "wp-admin/";
+---
+
+<html>
+  <head>
+    <meta http-equiv="refresh" content={`0; url=${wpLogin}`} />
+    <script define:vars={{ wpLogin }}>
+      window.location.href = wpLogin;
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to WordPress admin...</p>
+  </body>
+</html>
