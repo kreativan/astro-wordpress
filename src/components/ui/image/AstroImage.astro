@@ -13,7 +13,7 @@
  *
  * @example
  * <AstroImage
- *   url="/images/hero.jpg"
+ *   url="/images/hero.jpg" // or src="/images/hero.jpg"
  *   alt="Hero image"
  *   width={800}
  *   height={600}
@@ -37,18 +37,18 @@ const {
   format = "webp",
 } = Astro.props;
 
-let imaSrc = src || url;
+let imgSrc = src || url;
 
 let imageAlt =
-  !alt && imaSrc
-    ? imaSrc.split("/").pop().split(".").slice(0, -1).join(".")
+  !alt && imgSrc
+    ? imgSrc.split("/").pop().split(".").slice(0, -1).join(".")
     : alt;
 ---
 
 {
-  url && (
+  imgSrc && (
     <Image
-      src={imaSrc}
+      src={imgSrc}
       alt={imageAlt}
       class={className}
       width={width && width !== "auto" ? width : ""}
