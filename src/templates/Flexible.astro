@@ -7,5 +7,5 @@ const page = wordpress.page;
 ---
 
 <Layout wordpress={wordpress} title={page.title.rendered}>
-  <WpFlexibleContent page={page} />
+  <WpFlexibleContent items={page.acf.flexible_content} />
 </Layout>
