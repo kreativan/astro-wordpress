@@ -30,7 +30,7 @@
 import Editor from "@components/wp-blocks/editor/Block.astro";
 
 // Auto-load all wp-blocks/*/Block.astro and key them by folder name
-const modules = import.meta.glob("/src/components/wp-blocks/**/Block.astro", {
+const modules = import.meta.glob("@components/wp-blocks/**/Block.astro", {
   eager: true,
 });
 
@@ -40,7 +40,7 @@ const blocks = Object.fromEntries(
     // folder right before Block.astro becomes the layout key
     const key = parts[parts.length - 2];
     return [key, (mod as any).default];
-  })
+  }),
 );
 
 const { page } = Astro.props;
@@ -75,9 +75,10 @@ const flexibleContent = page?.acf?.flexible_content;
             ? `wp-block block-${block.acf_fc_layout} ${block_options.css_class}`
             : `wp-block block-${block.acf_fc_layout}`;
 
-        if (block?.block_options?.enable != "1") {
+        if (block_options != false && block?.block_options?.enable != "1") {
           return null;
         }
+
         return block_options ? (
           <section id={cssID} class={`${cssClass} ${space}`}>
             {container &&
