@@ -1,8 +1,8 @@
 ---
-import Editor from "@components/wp-content/editor/Content.astro";
+import Editor from "@components/wp-blocks/editor/Block.astro";
 
-// Auto-load all wp-content/*/Content.astro and key them by folder name
-const modules = import.meta.glob("@components/wp-content/**/Content.astro", {
+// Auto-load all wp-blocks/*/Block.astro and key them by folder name
+const modules = import.meta.glob("@components/wp-blocks/**/Block.astro", {
   eager: true,
 });
 
@@ -20,11 +20,11 @@ const { items } = Astro.props;
 
 {
   items &&
-    items.map((content, index) => {
-      const layout = content.acf_fc_layout;
+    items.map((block, index) => {
+      const layout = block.acf_fc_layout;
       const BlockComponent = blocks[layout] || Editor;
       {
-        return <BlockComponent content={content} index={index + 1} />;
+        return <BlockComponent content={block} index={index + 1} />;
       }
     })
 }
