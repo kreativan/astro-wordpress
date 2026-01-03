@@ -21,6 +21,12 @@
  *   target="_blank"
  *   className="text-blue-500"
  * />
+ *
+ * @example
+ * // Menu item with custom slot content
+ * <MenuItem href="/services" title="Our Services">
+ *   <span class="custom-class">Services</span>
+ * </MenuItem>
  */
 
 const {
@@ -31,13 +37,15 @@ const {
   parentClass = "menu-item",
 } = Astro.props;
 
-let isActive = Astro.url.pathname.includes(href) ? true : false;
+const showSlot = Astro.slots.default;
+
+let isActive = Astro.url.pathname.includes(href) && href !== "/" ? true : false;
 
 const rel = target === "_blank" ? "noopener noreferrer nofollow" : undefined;
 ---
 
 <li class={parentClass + (isActive ? " active" : "")}>
   <a href={href} class={className} title={title} target={target} rel={rel}>
-    {title}
+    {showSlot ? <slot /> : title}
   </a>
 </li>
