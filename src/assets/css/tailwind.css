@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-@import "./animate.css";
+@import "./lib/animate.css";
+@import "./components/animation.css";
 @import "./components/wp-blocks.css";
 @import "./components/button.css";
 @import "./components/form.css";

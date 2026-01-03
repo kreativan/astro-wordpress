@@ -1,0 +1,8 @@
+/* Targets all elements with the data-viewport-animation attribute */
+[data-viewport-animation] {
+  opacity: 0;
+
+  &.in-view {
+    opacity: 1;
+  }
+}
