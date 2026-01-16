@@ -1,4 +1,7 @@
 ---
+import "@assets/fonts/inter.css";
+import "@assets/css/tailwind.css";
+
 import Meta from "@components/base/Meta.astro";
 import Scripts from "@components/base/Scripts.astro";
 import Supersonic from "@components/base/Supersonic.astro";
@@ -15,10 +18,11 @@ interface Props {
 
 const { wordpress, title } = Astro.props;
 const page = wordpress.page;
-let pageTitle = page?.acf?.seo?.title || page?.title?.rendered || title;
 
-import "@assets/fonts/inter.css";
-import "@assets/css/tailwind.css";
+let pageTitle =
+  page?.acf?.seo?.title ||
+  import.meta.env.SITE_TITLE + " - " + page?.title?.rendered ||
+  import.meta.env.SITE_TITLE + " - " + title;
 ---
 
 <html lang={wordpress.lang}>
@@ -28,7 +32,7 @@ import "@assets/css/tailwind.css";
 
     <!-- Meta  -->
     <Meta
-      title={pageTitle + " - " + import.meta.env.SITE_TITLE}
+      title={pageTitle}
       description={page?.acf?.seo?.description}
       keywords={page?.acf?.seo?.keywords}
       og={{
